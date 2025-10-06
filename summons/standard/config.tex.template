@@ -1,0 +1,76 @@
+% Shared configuration and macros
+% Reduce margins to increase usable text width for dense tables
+\usepackage[a4paper,top=15mm,bottom=18mm,left=10mm,right=10mm]{geometry}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{csvsimple}
+\usepackage{etoolbox}
+
+% Typography
+\setmainfont{TeX Gyre Termes}
+\newcommand{\BrandColor}{lodgeblue}
+
+% Lodge metadata (edit as appropriate)
+\newcommand{\LodgeName}{Lodge of Fidelity}
+\newcommand{\LodgeNumber}{5749}
+\newcommand{\LodgeFoundedYear}{1938}
+\newcommand{\LodgeAddress}{Freemasons' Hall, Great Queen Street, London}
+
+% Meeting runtime variables populated from meetings.csv
+\newcommand{\MeetingDate}{}
+\newcommand{\MeetingTyling}{}
+\newcommand{\MeetingVenue}{\LodgeAddress}
+\newcommand{\MeetingNotes}{}
+
+% Officer runtime variables (secretary for footer)
+\newcommand{\SecretaryName}{}
+\newcommand{\SecretaryEmail}{}
+\newcommand{\SecretaryPhone}{}
+% Worshipful Master (for title page)
+\newcommand{\MasterName}{}
+
+% Paths: prefer 'data' when running from tex/, otherwise fall back to 'tex/data'
+\newcommand{\DataDir}{data}
+% If data/officers.csv not found by TeX's path resolver, use tex/data
+\IfFileExists{data/officers.csv}{}{\renewcommand{\DataDir}{tex/data}}
+
+% Convenience: load row from meetings.csv matching \MeetingNumber
+\newcommand{\LoadMeetingData}{%
+  \csvreader[head to column names, separator=comma, respect all]{\DataDir/meetings.csv}{}{%
+    \def\tmpMeeting{\meeting_number}%
+    \ifdefstring{\tmpMeeting}{\MeetingNumber}{%
+      \renewcommand{\MeetingDate}{\meeting_date}%
+      \renewcommand{\MeetingTyling}{\tyling}%
+      \renewcommand{\MeetingVenue}{\venue}%
+      \renewcommand{\MeetingNotes}{\notes}%
+    }{}%
+  }%
+}
+
+% Load Secretary from officers.csv
+\newcommand{\LoadSecretaryFromOfficers}{%
+  \csvreader[head to column names, separator=comma, respect all]{\DataDir/officers.csv}{}{%
+    \def\tmpRole{\role}%
+    \ifdefstring{\tmpRole}{Secretary}{%
+      \renewcommand{\SecretaryName}{\name}%
+      \renewcommand{\SecretaryEmail}{\email}%
+      \renewcommand{\SecretaryPhone}{\phone}%
+    }{}%
+  }%
+}
+
+% Load Worshipful Master from officers.csv (role: Master)
+\newcommand{\LoadMasterFromOfficers}{%
+  \csvreader[head to column names, separator=comma, respect all]{\DataDir/officers.csv}{}{%
+    \def\tmpRole{\role}%
+    \ifdefstring{\tmpRole}{Master}{%
+      \renewcommand{\MasterName}{\name}%
+    }{}%
+  }%
+}

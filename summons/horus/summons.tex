@@ -1,0 +1,206 @@
+% Main LaTeX file for L5749 Summons
+\documentclass[11pt,a4paper]{article}
+
+% Core config and styles (style provides border + tables)
+\input{config.tex}
+\usepackage{style}
+% Page 1 editable variables (secretary contact, booking text, etc.)
+\input{page1-vars.tex}
+
+% Set default meeting number if not passed in from build
+\providecommand{\MeetingNumber}{0456}
+
+% Apply Horus border to every page (after style so macro is defined)
+\ApplyHorusBorderAllPages
+
+% Remove page numbers from all pages
+\pagestyle{empty}
+
+\begin{document}
+
+% Load meeting and officers (initial pass)
+\LoadMeetingData
+\LoadKeyOfficers
+
+% ===== Page 1: Horus Title / Summons Letter =====
+  \thispagestyle{empty}
+\vspace*{14pt}% space below top border
+\begin{center}
+  % Patron status lines and crest (tabular for stable vertical centering)
+  % Use wider columns (0.36 each) and smaller gap (4pt) to move text closer to borders
+  % All columns top-aligned (t) to align tops with logo top
+  \setlength{\tabcolsep}{0pt}
+  \setlength{\extrarowheight}{0pt}
+  \begin{tabular}{@{}p{0.34\textwidth}@{\hspace{4pt}}p{0.24\textwidth}@{\hspace{4pt}}p{0.34\textwidth}@{}}
+  \raggedright\fontsize{11pt}{12pt}\selectfont \LodgePatronLeft &
+  \centering\raisebox{-\height}{\includegraphics[width=0.24\textwidth]{../assets/l3155-logo.png}} &
+  \raggedleft\fontsize{11pt}{12pt}\selectfont \LodgePatronRight \\
+  \end{tabular}\\[18pt]
+  {\HorusTitleFont\color{horusgold} The Horus Lodge No. \LodgeNumber}\\[6pt]
+  {\HorusConsecratedFont Consecrated \LodgeFoundedYear}\\[18pt]
+  % Master heading - name and formatted post-nominals
+  {\HorusRoleLabelFont Worshipful Master}\\[4pt]
+  % Use \par + vspace instead of \\ to avoid 'There's no line here to end.' when TeX is in vertical mode
+  {\HorusNameFont 
+    \if\relax\detokenize\expandafter{\MasterName}\relax
+      ~% Empty placeholder if no master loaded
+    \else
+      \MasterSalutation\space\MasterName\space\FormatPostNominals{\MasterCraftGrandRank}{\MasterCraftRanks}{\MasterRAGrandRank}{\MasterRARanks}%
+    \fi
+  }\par\vspace{18pt}
+  % Master Elect only if name non-empty (robust double test)
+  \begingroup\edef\tempME{\MasterElectName}\ifx\tempME\empty\else
+    {\HorusRoleLabelFont Master Elect}\\[4pt]
+    {\HorusNameFont \MasterElectSalutation\space\MasterElectName\space\FormatPostNominals{\MasterElectCraftGrandRank}{\MasterElectCraftRanks}{\MasterElectRAGrandRank}{\MasterElectRARanks}}\\[22pt]
+  \fi\endgroup
+\end{center}
+
+{\HorusBodyFont
+Dear Sir and Brother,\\[10pt]
+You are hereby summoned to attend the Regular Meeting of The Horus Lodge No~\LodgeNumber~(Meeting No. \MeetingNumber)\\[8pt]
+On \textbf{\MeetingDate\ @ \MeetingTyling\ at \MeetingVenue.}\\[10pt]
+Where we will receive a Lecture on the Worshipful Company of Brewers, delivered by W.Bro. James Fitzgerald LGR, Beadle of the Company.\\[10pt]
+Followed by a Festive Board, which will be a White Table.\\[10pt]
+By Command of the Worshipful Master.\\[22pt]
+Yours Fraternally,\\[14pt]
+\begin{minipage}[t]{0.56\textwidth}
+  % Secretary name: salutation + name on first line
+  {\SignatureNameFont 
+    \if\relax\detokenize\expandafter{\SecretaryDisplayName}\relax
+      \if\relax\detokenize\expandafter{\SecretaryName}\relax
+        % Both empty - show nothing
+      \else
+        % Show loaded secretary: salutation + name
+        \SecretarySalutation\space\SecretaryName
+      \fi
+    \else
+      % Override display name provided
+      \SecretaryDisplayName
+    \fi
+  }\par\vspace{2pt}
+  % Post-nominals on second line - formatted with 4 parts
+  {\SignatureRanksFont 
+    \if\relax\detokenize\expandafter{\SecretaryPostnominalsOverride}\relax
+      \FormatPostNominals{\SecretaryCraftGrandRank}{\SecretaryCraftRanks}{\SecretaryRAGrandRank}{\SecretaryRARanks}%
+    \else
+      \SecretaryPostnominalsOverride
+    \fi
+  }\par\vspace{2pt}
+  {\SignatureRoleFont Lodge Secretary}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.34\textwidth}\raggedleft
+  {\AddressFont \SecretaryAddressLineA}\par\vspace{2pt}
+  {\AddressFont \SecretaryAddressLineB}\par\vspace{2pt}
+  {\AddressFont \SecretaryAddressLineC}\par\vspace{2pt}
+  % Phone | Email on contact line
+  {\ContactFont 
+    \if\relax\detokenize\expandafter{\SecretaryPhoneOverride}\relax
+      \edef\PhoneVal{\SecretaryPhone}%
+    \else
+      \edef\PhoneVal{\SecretaryPhoneOverride}%
+    \fi
+    \if\relax\detokenize\expandafter{\SecretaryEmailOverride}\relax
+      \edef\EmailVal{\SecretaryEmail}%
+    \else
+      \edef\EmailVal{\SecretaryEmailOverride}%
+    \fi
+    % Display: phone | email (if both present), or just one
+    \if\relax\detokenize\expandafter{\PhoneVal}\relax\else
+      \PhoneVal
+    \fi
+    \if\relax\detokenize\expandafter{\PhoneVal}\relax
+      % No phone, show email alone
+      \if\relax\detokenize\expandafter{\EmailVal}\relax\else
+        \href{mailto:\EmailVal}{\EmailVal}%
+      \fi
+    \else
+      % Phone exists, add pipe + email if email exists
+      \if\relax\detokenize\expandafter{\EmailVal}\relax\else
+        \ \textbar\ \href{mailto:\EmailVal}{\EmailVal}%
+      \fi
+    \fi
+  }
+\end{minipage}
+}
+
+% Centered festive board / booking / dress code block below columns
+\vspace{18pt}
+\begin{center}
+  {\HorusBodyFont \parbox{0.9\linewidth}{\centering \FestiveBoardText}}\\[14pt]
+  {\small \BookingIntro}\\[6pt]
+  {\large\bfseries \href{\BookingLinkURL}{\BookingLinkText}}\\[14pt]
+  {\bfseries \parbox{0.9\linewidth}{\centering \DressCodeText}}\\[20pt]
+  {\color{horusgold}\textsc{\FooterDomain}}\\[4pt]
+\end{center}
+
+\vfill
+
+\clearpage
+
+% ===== Page 2: Officers and Past Masters =====
+% Optional Honorary Members section above Officers (if CSV present)
+\IfFileExists{\DataDir/honorary_members.csv}{%
+  \CenteredHeading{Honorary Members}
+  \HonoraryMembersTable
+  \vspace{0.5\baselineskip}
+}{ }
+\CenteredHeading{Lodge Officers}
+\OfficersTable
+
+% Optional notices between Officers and Past Masters
+\vspace{0.5\baselineskip}
+{\small
+\IfFileExists{notices/\MeetingNumber-pre-pm.tex}{%
+  \input{notices/\MeetingNumber-pre-pm.tex}%
+}{%
+  \IfFileExists{notices/pre-past-masters.tex}{\input{notices/pre-past-masters.tex}}{}
+}%
+}
+
+% Past Masters section temporarily hidden - data needs updating
+% \vspace{0.75\baselineskip}
+% \CenteredHeading{Past Masters}
+% \PastMastersTable
+
+\clearpage
+
+% ===== Page 3: Odes and Agenda =====
+% Opening Ode near top
+\vspace*{10pt}
+{\centering\large\bfseries\scshape\color{lodgeblue}Opening Ode\par}
+\vspace{0.5\baselineskip}
+\IfFileExists{odes/opening.tex}{\input{odes/opening.tex}}{\small [Opening Ode content here]}%
+
+% More space before Agenda
+\vspace{1.5\baselineskip}
+{\centering\large\bfseries\scshape\color{lodgeblue}Agenda\par}
+\vspace{0.5\baselineskip}
+\IfFileExists{agenda/\MeetingNumber.tex}{%
+  \input{agenda/\MeetingNumber.tex}%
+}{%
+  \StandardAgenda
+}
+
+% Push Closing Ode to bottom
+\vfill
+{\centering\large\bfseries\scshape\color{lodgeblue}Closing Ode\par}
+\vspace{0.5\baselineskip}
+\IfFileExists{odes/closing.tex}{\input{odes/closing.tex}}{\small [Closing Ode content here]}%
+\vspace*{10pt}
+
+\clearpage
+
+% ===== Page 4: Menu and Notices =====
+\IfFileExists{notices/\MeetingNumber.tex}{%
+  \input{notices/\MeetingNumber.tex}%
+}{%
+  \IfFileExists{notices/default.tex}{%
+    \input{notices/default.tex}%
+  }{%
+    % Final fallback: just show standard notices with heading
+    \CenteredHeading{Notices}
+    \input{notices/standard-notices.tex}%
+  }
+}
+
+\end{document}

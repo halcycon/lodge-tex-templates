@@ -1,0 +1,29 @@
+% Template for meeting-specific menu
+% Copy this file and rename it to match your meeting number (e.g., 0457.tex)
+% Then fill in the menu details below
+
+\subsection*{Menu}
+
+% Brewery/caterer introduction
+\FormatMenuHeader{Paired beers will be provided by the \textbf{[BREWERY NAME]}, who will also be running a private bar for the evening}
+
+% Welcome drink (optional - remove if not applicable)
+\FormatMenuSimple{Welcome Drink: [DRINK NAME]}{[ABV]}
+
+% Starter/First Course
+% Parameters: {Course name}{Vegetarian alternative (or empty)}{Paired beer}{ABV}
+\FormatMenuCourse{[STARTER NAME]}{A Vegetarian option is available}{[BEER NAME]}{[ABV]}
+
+% Main Course
+\FormatMenuCourse{[MAIN COURSE NAME]}{A Vegetarian option can be provided}{[BEER NAME]}{[ABV]}
+
+% Dessert
+\FormatMenuCourse{[DESSERT NAME]}{}{[BEER NAME]}{[ABV]}
+
+% Bar drinks (optional)
+\FormatMenuSimple{Bar Drinks after meal: [DETAILS]}{}
+
+\vspace{\baselineskip}
+
+% Always include standard notices at the end
+\input{notices/standard-notices.tex}

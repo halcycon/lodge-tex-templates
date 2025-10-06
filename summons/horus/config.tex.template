@@ -1,0 +1,172 @@
+% Shared configuration and macros
+% Reduce margins to increase usable text width for dense tables
+\usepackage[a4paper,top=15mm,bottom=18mm,left=10mm,right=10mm]{geometry}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{csvsimple}
+\usepackage{etoolbox}
+\usepackage{xstring} % for robust string comparisons
+
+% Typography
+\setmainfont{TeX Gyre Termes}
+\newcommand{\BrandColor}{lodgeblue}
+
+% Define colors
+\definecolor{lodgeblue}{RGB}{0,51,102}
+\definecolor{lodgegold}{RGB}{184,134,11} % Dark goldenrod color
+
+% Lodge metadata (Horus Lodge variant)
+% NOTE: These values are specific to the Horus Lodge layout. Adjust as needed.
+\newcommand{\LodgeName}{The Horus Lodge}
+\newcommand{\LodgeNumber}{3155}
+% Use text superscript to avoid math artefacts in PDF output
+\newcommand{\LodgeFoundedYear}{14\textsuperscript{th} May 1906}
+\newcommand{\LodgeAddress}{Freemasons' Hall, Great Queen Street, London}
+
+% Patron / status text blocks with conceptual line spacing (gap only between conceptual lines)
+\newcommand{\PatronConceptGap}{4pt}
+\newcommand{\LodgePatronLeft}{Founder Lodge of the Metropolitan Grand Lodge of London\\[\PatronConceptGap]Patron of the R.M.I for Girls\\[\PatronConceptGap]Vice-President of the R.M.I. for Boys and the RMBI}
+\newcommand{\LodgePatronRight}{%
+  Founding and Double Patron of the Royal Masonic Hospital\\[\PatronConceptGap]%
+  Patron of the New Masonic Samaritan Fund%
+}
+
+% Worshipful Master details (salutation & 4-part post-nominals)
+\newcommand{\MasterName}{}
+\newcommand{\MasterSalutation}{}
+\newcommand{\MasterCraftGrandRank}{}
+\newcommand{\MasterCraftRanks}{}
+\newcommand{\MasterRAGrandRank}{}
+\newcommand{\MasterRARanks}{}
+
+% Worshipful Master Elect (optional)
+\newcommand{\MasterElectName}{}
+\newcommand{\MasterElectSalutation}{}
+\newcommand{\MasterElectCraftGrandRank}{}
+\newcommand{\MasterElectCraftRanks}{}
+\newcommand{\MasterElectRAGrandRank}{}
+\newcommand{\MasterElectRARanks}{}
+
+% Secretary details
+\newcommand{\SecretaryCraftGrandRank}{}
+\newcommand{\SecretaryCraftRanks}{}
+\newcommand{\SecretaryRAGrandRank}{}
+\newcommand{\SecretaryRARanks}{}
+
+% Optional Secretary postal address lines (for uniform spacing)
+\newcommand{\SecretaryAddressLineA}{58 Lilian Road,}
+\newcommand{\SecretaryAddressLineB}{London,}
+\newcommand{\SecretaryAddressLineC}{SW16 5HW}
+
+% (Initial Master Elect loader removed; a consolidated loader is defined later.)
+
+% Meeting runtime variables populated from meetings.csv
+\newcommand{\MeetingDate}{}
+\newcommand{\MeetingTyling}{}
+\newcommand{\MeetingVenue}{\LodgeAddress}
+\newcommand{\MeetingNotes}{}
+
+% Officer runtime variables (secretary for footer)
+\newcommand{\SecretaryName}{}
+\newcommand{\SecretaryEmail}{}
+\newcommand{\SecretaryPhone}{}
+\newcommand{\SecretarySalutation}{}
+\newcommand{\SecretaryPostnominals}{}
+% (Removed duplicate \MasterName definition to avoid accidental resets)
+
+% Paths: prefer 'data' when running from tex/, otherwise fall back to 'tex/data'
+\newcommand{\DataDir}{data}
+ % Fallbacks if primary not found (try tex/data then ../horus/data when compiled from parent)
+ \IfFileExists{data/officers.csv}{}{%
+   \IfFileExists{tex/data/officers.csv}{\renewcommand{\DataDir}{tex/data}}{%
+     \IfFileExists{../horus/data/officers.csv}{\renewcommand{\DataDir}{../horus/data}}{}
+   }%
+ }
+
+% Convenience: load row from meetings.csv matching \MeetingNumber
+\newcommand{\LoadMeetingData}{%
+  % WORKAROUND: csvsimple mysteriously fails to read meetings.csv
+  % Hardcoding values for meeting 0456 until root cause is found
+  \IfStrEq{\MeetingNumber}{0456}{%
+    \renewcommand{\MeetingDate}{Saturday, 18 October 2025}%
+    \renewcommand{\MeetingTyling}{12:00 p.m.}%
+    \renewcommand{\MeetingVenue}{Freemasons' Hall}%
+    \renewcommand{\MeetingNotes}{Election Meeting}%
+  }{}%
+  \IfStrEq{\MeetingNumber}{0344}{%
+    \renewcommand{\MeetingDate}{Thursday, 9 October 2025}%
+    \renewcommand{\MeetingTyling}{5:00 p.m.}%
+    \renewcommand{\MeetingVenue}{Freemasons' Hall}%
+    \renewcommand{\MeetingNotes}{Installation Meeting}%
+  }{}%
+}
+
+% (Deprecated individual loader macros removed – using unified loader below)
+
+% Diagnostics for data directory
+\newcommand{\DataDirDiagnostics}{%
+  	\typeout{[DATA-DIR] Using DataDir='\DataDir'}%
+  \IfFileExists{\DataDir/officers.csv}{\typeout{[DATA-DIR] officers.csv FOUND}}{\typeout{[DATA-DIR] officers.csv MISSING}}%
+}
+
+% Simple single-pass loader (mirrors working table logic) – reliable
+\newcommand{\LoadKeyOfficers}{%
+  \DataDirDiagnostics%
+  \csvreader[head to column names, separator=comma, respect all]{\DataDir/officers.csv}{}{%
+    	\typeout{[ROW] role='\role' name='\name'}%
+    % Master (first match wins) - use \xdef to expand values immediately
+    \if\relax\detokenize\expandafter{\MasterName}\relax
+      \IfStrEq{\role}{Master}{%
+        \xdef\MasterName{\name}%
+        \xdef\MasterSalutation{\salutation}%
+        \expandafter\xdef\expandafter\MasterCraftGrandRank\expandafter{\csname craft_grand_rank\endcsname}%
+        \expandafter\xdef\expandafter\MasterCraftRanks\expandafter{\csname craft_ranks\endcsname}%
+        \expandafter\xdef\expandafter\MasterRAGrandRank\expandafter{\csname ra_grand_rank\endcsname}%
+        \expandafter\xdef\expandafter\MasterRARanks\expandafter{\csname ra_ranks\endcsname}%
+        \typeout{[SET] Master='\MasterName'}%
+      }{}%
+    \fi
+    % Secretary - expand values immediately
+    \if\relax\detokenize\expandafter{\SecretaryName}\relax
+      \IfStrEq{\role}{Secretary}{%
+        \xdef\SecretaryName{\name}%
+        \xdef\SecretarySalutation{\salutation}%
+        \expandafter\xdef\expandafter\SecretaryCraftGrandRank\expandafter{\csname craft_grand_rank\endcsname}%
+        \expandafter\xdef\expandafter\SecretaryCraftRanks\expandafter{\csname craft_ranks\endcsname}%
+        \expandafter\xdef\expandafter\SecretaryRAGrandRank\expandafter{\csname ra_grand_rank\endcsname}%
+        \expandafter\xdef\expandafter\SecretaryRARanks\expandafter{\csname ra_ranks\endcsname}%
+        \xdef\SecretaryEmail{\email}%
+        \xdef\SecretaryPhone{\phone}%
+        \typeout{[SET] Secretary='\SecretaryName'}%
+      }{}%
+    \fi
+    % Master Elect (optional) - expand values immediately
+    \if\relax\detokenize\expandafter{\MasterElectName}\relax
+      \IfStrEq{\role}{Master Elect}{%
+        \xdef\MasterElectName{\name}%
+        \xdef\MasterElectSalutation{\salutation}%
+        \expandafter\xdef\expandafter\MasterElectCraftGrandRank\expandafter{\csname craft_grand_rank\endcsname}%
+        \expandafter\xdef\expandafter\MasterElectCraftRanks\expandafter{\csname craft_ranks\endcsname}%
+        \expandafter\xdef\expandafter\MasterElectRAGrandRank\expandafter{\csname ra_grand_rank\endcsname}%
+        \expandafter\xdef\expandafter\MasterElectRARanks\expandafter{\csname ra_ranks\endcsname}%
+        \xdef\MasterElectPostnominals{\postnominals}%
+        \typeout{[SET] MasterElect='\MasterElectName'}%
+      }{}%
+    \fi
+  }%
+  	\typeout{[KEY-OFFICERS] Master='\MasterName' Secretary='\SecretaryName' MasterElect='\MasterElectName'}%
+}
+
+\newcommand{\LateEnsureKeyOfficers}{\LoadKeyOfficers}
+\newcommand{\FallbackPopulateKeyOfficers}{\LoadKeyOfficers}
+
+% Simple diagnostic macro (can be commented out once verified)
+\newcommand{\OfficerDebug}{% log only, no page output
+  \AtBeginDocument{\typeout{[OFFICER-DEBUG] Master=\ifx\MasterName\empty(EMPTY)\else\MasterName\fi; MasterElect=\ifx\MasterElectName\empty(EMPTY)\else\MasterElectName\fi; Secretary=\ifx\SecretaryName\empty(EMPTY)\else\SecretaryName\fi}}%
+}

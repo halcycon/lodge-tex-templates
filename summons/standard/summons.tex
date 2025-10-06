@@ -1,0 +1,88 @@
+% Main LaTeX file for L5749 Summons
+\documentclass[11pt,a4paper]{article}
+
+% Core config and styles
+\input{config.tex}
+\usepackage{style}
+
+% Set default meeting number if not passed in from build
+\providecommand{\MeetingNumber}{0000}
+
+\begin{document}
+
+% Load meeting and officer data based on \MeetingNumber
+\LoadMeetingData
+\LoadSecretaryFromOfficers
+\LoadMasterFromOfficers
+
+% ===== Page 1: Title page =====
+\begin{center}
+  {\LARGE\bfseries \LodgeName}\\[2pt]
+  {\LARGE No. \LodgeNumber}\\[8pt]
+  {\large Consecrated \LodgeFoundedYear}\\[10pt]
+  {\large \LodgeAddress}\\[12pt]
+  \includegraphics[width=0.3\textwidth]{../assets/l5749-logo.png}\\[14pt]
+  {\Large\bfseries Worshipful Master: \MasterName}
+\end{center}
+
+\clearpage
+
+% ===== Page 2: Officers and Past Masters =====
+% Optional Honorary Members section above Officers (if CSV present)
+\IfFileExists{\DataDir/honorary_members.csv}{%
+  \CenteredHeading{Honorary Members}
+  \HonoraryMembersTable
+  \vspace{0.5\baselineskip}
+}{ }
+\CenteredHeading{Lodge Officers}
+\OfficersTable
+
+% Optional notices between Officers and Past Masters
+\vspace{0.5\baselineskip}
+{\small
+\IfFileExists{notices/\MeetingNumber-pre-pm.tex}{%
+  \input{notices/\MeetingNumber-pre-pm.tex}%
+}{%
+  \IfFileExists{notices/pre-past-masters.tex}{\input{notices/pre-past-masters.tex}}{}
+}%
+}
+
+\vspace{0.75\baselineskip}
+\CenteredHeading{Past Masters}
+\PastMastersTable
+
+\clearpage
+
+% ===== Page 3: Odes and Agenda =====
+\section*{Opening Ode}
+\IfFileExists{odes/opening.tex}{\input{odes/opening.tex}}{\small [Opening Ode content here]}%
+
+\vspace{0.75\baselineskip}
+\section*{Agenda}
+\IfFileExists{agenda/\MeetingNumber.tex}{%
+  \input{agenda/\MeetingNumber.tex}%
+}{%
+  \StandardAgenda
+}
+
+\vspace{0.75\baselineskip}
+\section*{Closing Ode}
+\IfFileExists{odes/closing.tex}{\input{odes/closing.tex}}{\small [Closing Ode content here]}%
+
+\clearpage
+
+% ===== Page 4: Notices =====
+\section*{Notices}
+\IfFileExists{notices/\MeetingNumber.tex}{%
+  \input{notices/\MeetingNumber.tex}%
+}{%
+  \IfFileExists{notices/default.tex}{\input{notices/default.tex}}{%
+    {\small
+    Dress: Dark lounge suit or appropriate attire. Regalia to be worn.\\
+    Brethren are requested to notify the Secretary of their attendance.\\[4pt]
+    Secretary: \SecretaryName\ifx\SecretaryEmail\empty\else{} $<$\SecretaryEmail$>$\fi\ifx\SecretaryPhone\empty\else{} \textbar{} Tel: \SecretaryPhone\fi
+    }%
+  }
+}
+
+\end{document}

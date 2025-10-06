@@ -1,0 +1,358 @@
+% Style definitions for L5749 Summons
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{style}[2025/09/14 L5749 Summons Style]
+
+% Dependencies
+\RequirePackage{xcolor}
+\RequirePackage{hyperref}
+\RequirePackage{titlesec}
+\RequirePackage{xstring}
+\RequirePackage{tabularx}
+\RequirePackage{csvsimple}
+\RequirePackage{datatool}
+\RequirePackage{etoolbox}
+\RequirePackage{multicol}
+
+  % Defaults for all roles
+  \gdef\OfficerSalMaster{}\gdef\OfficerNameMaster{}\gdef\OfficerPostMaster{}
+  \gdef\OfficerSalSeniorWarden{}\gdef\OfficerNameSeniorWarden{}\gdef\OfficerPostSeniorWarden{}
+  \gdef\OfficerSalJuniorWarden{}\gdef\OfficerNameJuniorWarden{}\gdef\OfficerPostJuniorWarden{}
+  \gdef\OfficerSalChaplain{}\gdef\OfficerNameChaplain{}\gdef\OfficerPostChaplain{}
+  \gdef\OfficerSalTreasurer{}\gdef\OfficerNameTreasurer{}\gdef\OfficerPostTreasurer{}
+  \gdef\OfficerSalSecretary{}\gdef\OfficerNameSecretary{}\gdef\OfficerPostSecretary{}
+  \gdef\OfficerSalDirectorOfCeremonies{}\gdef\OfficerNameDirectorOfCeremonies{}\gdef\OfficerPostDirectorOfCeremonies{}
+  \gdef\OfficerSalAlmoner{}\gdef\OfficerNameAlmoner{}\gdef\OfficerPostAlmoner{}
+  \gdef\OfficerSalCharitySteward{}\gdef\OfficerNameCharitySteward{}\gdef\OfficerPostCharitySteward{}
+  \gdef\OfficerSalMembershipOfficer{}\gdef\OfficerNameMembershipOfficer{}\gdef\OfficerPostMembershipOfficer{}
+  \gdef\OfficerSalMentor{}\gdef\OfficerNameMentor{}\gdef\OfficerPostMentor{}
+  \gdef\OfficerSalSeniorDeacon{}\gdef\OfficerNameSeniorDeacon{}\gdef\OfficerPostSeniorDeacon{}
+  \gdef\OfficerSalJuniorDeacon{}\gdef\OfficerNameJuniorDeacon{}\gdef\OfficerPostJuniorDeacon{}
+  \gdef\OfficerSalAssistantDirectorOfCeremonies{}\gdef\OfficerNameAssistantDirectorOfCeremonies{}\gdef\OfficerPostAssistantDirectorOfCeremonies{}
+  \gdef\OfficerSalAssistantSecretary{}\gdef\OfficerNameAssistantSecretary{}\gdef\OfficerPostAssistantSecretary{}
+  \gdef\OfficerSalInnerGuard{}\gdef\OfficerNameInnerGuard{}\gdef\OfficerPostInnerGuard{}
+  \gdef\OfficerSalStewards{}\gdef\OfficerNameStewards{}\gdef\OfficerPostStewards{}
+  \gdef\OfficerSalRoyalArchRepresentative{}\gdef\OfficerNameRoyalArchRepresentative{}\gdef\OfficerPostRoyalArchRepresentative{}
+  \gdef\OfficerSalEventsCoordinator{}\gdef\OfficerNameEventsCoordinator{}\gdef\OfficerPostEventsCoordinator{}
+  \gdef\OfficerSalMediaRepresentative{}\gdef\OfficerNameMediaRepresentative{}\gdef\OfficerPostMediaRepresentative{}
+  \gdef\OfficerSalTyler{}\gdef\OfficerNameTyler{}\gdef\OfficerPostTyler{}
+  \gdef\OfficerSalVisitingOfficer{}\gdef\OfficerNameVisitingOfficer{}\gdef\OfficerPostVisitingOfficer{}
+% Canonical officer role list (single source of truth)
+\newcommand{\OfficerRoleList}{%
+  Master,Senior Warden,Junior Warden,Chaplain,Treasurer,Secretary,Director of Ceremonies,Almoner,Charity Steward,Membership Officer,Mentor,Senior Deacon,Junior Deacon,Assistant Director of Ceremonies,Assistant Secretary,Inner Guard,Stewards,Royal Arch Representative,Events Coordinator,Media Representative,Tyler,Visiting Officer%
+}
+% Colors
+\definecolor{lodgeblue}{HTML}{004B8D}
+% Gold used for Horus border / headings
+\definecolor{horusgold}{HTML}{B39700}
+\definecolor{lightgray}{gray}{0.4}
+
+% Hyperref setup
+\hypersetup{
+  colorlinks=true,
+  linkcolor=lodgeblue,
+  urlcolor=lodgeblue
+}
+
+% Post-nominals formatter
+% Takes 4 arguments: craft grand rank, craft ranks, RA grand rank, RA ranks
+% Formats with bold for grand ranks, red for RA, smart spacing with no trailing commas
+\newcommand{\FormatPostNominals}[4]{%
+  \def\HasContent{0}% track if we've printed anything yet
+  % Craft Grand Rank (bold)
+  \if\relax\detokenize{#1}\relax\else
+    \textbf{#1}\gdef\HasContent{1}%
+  \fi
+  % Craft Ranks (normal)
+  \if\relax\detokenize{#2}\relax\else
+    \IfStrEq{\HasContent}{1}{\space}{}#2\gdef\HasContent{1}%
+  \fi
+  % RA Grand Rank (bold red)
+  \if\relax\detokenize{#3}\relax\else
+    \IfStrEq{\HasContent}{1}{\space}{}{\color{red}\textbf{#3}}\gdef\HasContent{1}%
+  \fi
+  % RA Ranks (red)
+  \if\relax\detokenize{#4}\relax\else
+    \IfStrEq{\HasContent}{1}{\space}{}{\color{red}#4}\gdef\HasContent{1}%
+  \fi
+}
+
+% Horus page border (thin double rule look via frame + inner separation)
+% Usage: \BeginHorusBorder ... \EndHorusBorder
+% Implemented with a tikz overlay to draw precise rectangle independent of margins.
+\RequirePackage{tikz}
+\RequirePackage{eso-pic}
+% Draw a gold double border on the current page only (call once near top of the page)
+% Customize insets here:
+\newlength{\HorusBorderOuterInset} \setlength{\HorusBorderOuterInset}{6.5mm}% distance from physical page edge (adjusted closer)
+\newlength{\HorusBorderGap}        \setlength{\HorusBorderGap}{1.5mm}% gap to inner hairline
+% Internal graphic for reuse
+\newcommand{\HorusBorderGraphic}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    % Outer rectangle
+    \draw[line width=0.65pt,color=horusgold]
+      ([xshift=\HorusBorderOuterInset,yshift=-\HorusBorderOuterInset]current page.north west)
+        rectangle
+      ([xshift=-\HorusBorderOuterInset,yshift=\HorusBorderOuterInset]current page.south east);
+    % Inner hairline (slightly thinner and further in)
+    \pgfmathsetlengthmacro{\Inner}{\HorusBorderOuterInset + \HorusBorderGap}
+    \draw[line width=0.35pt,color=horusgold]
+      ([xshift=\Inner,yshift=-\Inner]current page.north west)
+        rectangle
+      ([xshift=-\Inner,yshift=\Inner]current page.south east);
+  \end{tikzpicture}%
+}
+% Single-page application
+\newcommand{\BeginHorusBorder}{\AddToShipoutPictureFG*{\HorusBorderGraphic}}
+% All pages application (call once in preamble)
+\newcommand{\ApplyHorusBorderAllPages}{\AddToShipoutPictureFG{\HorusBorderGraphic}}
+\newcommand{\EndHorusBorder}{}
+
+% Small caps gold footer link style
+\newcommand{\HorusLink}[1]{\textsc{\href{#1}{#1}}}
+
+
+% Signature block styling
+% Secretary signature block fonts
+\newcommand{\SignatureNameFont}{\fontsize{12pt}{14pt}\selectfont\bfseries}
+\newcommand{\SignatureRoleFont}{\fontsize{10pt}{12pt}\selectfont}
+\newcommand{\SignatureRanksFont}{\fontsize{10pt}{12pt}\selectfont}
+\newcommand{\AddressFont}{\fontsize{10pt}{12pt}\selectfont}
+\newcommand{\ContactFont}{\fontsize{10pt}{12pt}\selectfont}
+
+% ===== Horus Title Page Font Macros =====
+% Centralize typography so sizing tweaks are easy
+\newcommand{\HorusTitleFont}{\fontsize{32pt}{34pt}\selectfont\bfseries}
+\newcommand{\HorusConsecratedFont}{\fontsize{13pt}{15pt}\selectfont}
+\newcommand{\HorusRoleLabelFont}{\fontsize{15pt}{17pt}\selectfont\bfseries}
+\newcommand{\HorusNameFont}{\fontsize{18pt}{20pt}\selectfont\bfseries}
+% Slightly larger body font per design feedback
+\newcommand{\HorusBodyFont}{\fontsize{12pt}{15pt}\selectfont}
+
+% Section formatting
+  \titleformat*{\section}{\large\bfseries\scshape\color{lodgeblue}}
+  \titlespacing*{\section}{0pt}{0.6\baselineskip}{0.35\baselineskip}
+
+% Centered heading helper matching section style & spacing
+\newcommand{\SectionStyle}{\large\bfseries\scshape\color{lodgeblue}}
+\newcommand{\CenteredHeading}[1]{%
+  \par\vspace{0.6\baselineskip}% same pre-skip as sections
+  {\centering \SectionStyle #1\par}% centered title line
+  \vspace{0.35\baselineskip}% same post-skip as sections
+}
+
+% List spacing
+\setlist{itemsep=0.25\baselineskip, topsep=0.25\baselineskip}
+
+% Table helpers
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+% Weighted X column for tabularx (proportional widths)
+\makeatletter
+\@ifundefined{NC@find@W}{\newcolumntype{W}[1]{>{\hsize=#1\hsize\raggedright\arraybackslash}X}}{}
+\makeatother
+
+% Shared table rule width, set per-table before drawing rules
+\newlength{\TableWidth}
+% Simple rule helpers drawn in vmode (avoid \noalign)
+\newcommand{\TopRule}{\par\noindent\rule{\TableWidth}{0.9pt}\par\vspace{2pt}}
+\newcommand{\MidRule}{\par\noindent\rule{\TableWidth}{0.5pt}\par\vspace{2pt}}
+\newcommand{\BottomRule}{\par\noindent\rule{\TableWidth}{0.9pt}\par\vspace{2pt}}
+
+% Honorary Members table from CSV (salutation, name, postnominals)
+\newcommand{\HonoraryMembersTable}{%
+  \begingroup
+    \setlength{\tabcolsep}{2pt}% tight horizontal padding
+    \renewcommand{\arraystretch}{0.95}% compact row height
+    \centering\small
+  \begin{minipage}{0.5\linewidth}
+      \centering
+      \begin{tabular}{@{}L{0.14\linewidth}L{0.56\linewidth}L{0.30\linewidth}@{}}%
+      % Read simple three-column CSV: salutation,name,postnominals
+      \csvreader[head to column names, separator=comma, respect all]{\DataDir/honorary_members.csv}{}{%
+        \salutation & \name & \ifstrempty{\postnominals}{}{\postnominals} \\
+      }%
+      \end{tabular}%
+    \end{minipage}%
+  \endgroup
+  \par\vspace{0.2\baselineskip}%
+}
+
+% Officers table from CSV
+\newcommand{\OfficersTable}{%
+  % Pretty label for some roles
+  \newcommand{\PrettyRole}[1]{%
+    \IfStrEq{##1}{Master}{Worshipful Master}{%
+      \IfStrEq{##1}{Steward}{Stewards}{##1}%
+    }%
+  }%
+  % Helper: print first matching row for a role, else blanks, scanning csv directly
+  \newcommand{\OfficerRow}[1]{%
+    \def\DesiredRole{##1}%
+    \gdef\Printed{0}%
+    \csvreader[head to column names, separator=comma, respect all]{\DataDir/officers.csv}{}{%
+      \IfStrEq{\Printed}{0}{%
+        \IfStrEq{\role}{\DesiredRole}{%
+          \PrettyRole{\DesiredRole} & \salutation & \name\space\FormatPostNominals{\csname craft_grand_rank\endcsname}{\csname craft_ranks\endcsname}{\csname ra_grand_rank\endcsname}{\csname ra_ranks\endcsname} \\
+          \gdef\Printed{1}%
+        }{}%
+      }{}%
+    }%
+    \IfStrEq{\Printed}{1}{}{\PrettyRole{\DesiredRole} & & \\}%
+  }%
+  % Helper: print ALL matching rows for a role (for multiple stewards)
+  \newcommand{\OfficerMultiRow}[1]{%
+    \gdef\RowCount{0}%
+    \csvreader[head to column names, separator=comma, respect all]{\DataDir/officers.csv}{}{%
+      \IfStrEq{\role}{##1}{%
+        \IfStrEq{\RowCount}{0}{%
+          % First row: print role name
+          \PrettyRole{##1} & \salutation & \name\space\FormatPostNominals{\csname craft_grand_rank\endcsname}{\csname craft_ranks\endcsname}{\csname ra_grand_rank\endcsname}{\csname ra_ranks\endcsname} \\
+        }{%
+          % Subsequent rows: blank role column
+          & \salutation & \name\space\FormatPostNominals{\csname craft_grand_rank\endcsname}{\csname craft_ranks\endcsname}{\csname ra_grand_rank\endcsname}{\csname ra_ranks\endcsname} \\
+        }%
+        \xdef\RowCount{1}%
+      }{}%
+    }%
+    \IfStrEq{\RowCount}{0}{\PrettyRole{##1} & & \\}{}% Print blank row if none found
+  }%
+  \begingroup
+  \setlength{\tabcolsep}{2.5pt}% extra-tight horizontal padding
+  \renewcommand{\arraystretch}{0.95}% comfortable row height per request
+    \centering\small
+  \begin{tabular}{@{}L{0.30\linewidth}L{0.085\linewidth}L{0.615\linewidth}@{}}%
+      \OfficerRow{Master}
+      \OfficerRow{Immediate Past Master}
+      \OfficerRow{Senior Warden}
+      \OfficerRow{Junior Warden}
+      \OfficerRow{Chaplain}
+      \OfficerRow{Treasurer}
+      \OfficerRow{Secretary}
+      \OfficerRow{Director of Ceremonies}
+      \OfficerRow{Almoner}
+      \OfficerRow{Charity Steward}
+      \OfficerRow{Membership Officer}
+      \OfficerRow{Mentor}
+      \OfficerRow{Senior Deacon}
+      \OfficerRow{Junior Deacon}
+      \OfficerRow{Assistant Director of Ceremonies}
+      \OfficerRow{Assistant Secretary}
+      \OfficerRow{Inner Guard}
+      \OfficerMultiRow{Steward}
+      \OfficerRow{Royal Arch Representative}
+      \OfficerRow{Tyler}
+    \end{tabular}
+  \endgroup
+  \par\vspace{0.2\baselineskip}%
+}
+
+% Single-role extractor mirroring OfficersTable logic (first match wins)
+\newcommand{\GetOfficer}[1]{%
+  \gdef\OfficerSal{}\gdef\OfficerName{}%
+  \gdef\OfficerCraftGrandRank{}\gdef\OfficerCraftRanks{}%
+  \gdef\OfficerRAGrandRank{}\gdef\OfficerRARanks{}%
+  \gdef\FoundFlag{0}%
+  \csvreader[head to column names, separator=comma, respect all]{\DataDir/officers.csv}{}{%
+    \IfStrEq{\FoundFlag}{0}{%
+      \IfStrEq{\role}{#1}{%
+        \gdef\OfficerSal{\salutation}%
+        \gdef\OfficerName{\name}%
+        \expandafter\gdef\expandafter\OfficerCraftGrandRank\expandafter{\csname craft_grand_rank\endcsname}%
+        \expandafter\gdef\expandafter\OfficerCraftRanks\expandafter{\csname craft_ranks\endcsname}%
+        \expandafter\gdef\expandafter\OfficerRAGrandRank\expandafter{\csname ra_grand_rank\endcsname}%
+        \expandafter\gdef\expandafter\OfficerRARanks\expandafter{\csname ra_ranks\endcsname}%
+        \gdef\FoundFlag{1}%
+      }{}%
+    }{}%
+  }%
+}
+
+% Past Masters listing in flowing page columns (4 fields per row)
+\newcommand{\PastMastersLegend}{%
+  {\footnotesize
+  \par\vspace{0.5\baselineskip}
+  \noindent
+    † = Deceased\quad F = Founder Member\quad R = Resigned\quad X = Excluded\quad H = Honorary\par}
+}
+
+\newcommand{\PastMastersTable}{%
+  \begingroup
+    \fontsize{6pt}{7.2pt}\selectfont
+    % Column separation and spacing for multi-column layout
+  \setlength{\columnsep}{10pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\tabcolsep}{0.5pt}
+  \setlength{\multicolsep}{4pt}% reduce vertical space around multicols
+  \renewcommand{\arraystretch}{0.9}% slightly tighter rows
+    \raggedcolumns
+    \begin{multicols}{4}
+      % Each row is a compact tabularx spanning the column width
+      \csvreader[
+        head to column names,
+        separator=comma,
+        respect all
+      ]{\DataDir/past_masters.csv}{}{%
+        % Ensure each row is its own paragraph so items stack down the column
+        \par\noindent
+        \begin{tabularx}{\linewidth}{@{}L{0.10\linewidth}C{0.10\linewidth}L{0.15\linewidth}Y@{}}%
+          \year & \notes & \salutation & \name\ifstrempty{\postnominals}{}{\space \postnominals} \\
+        \end{tabularx}%
+        \par\vspace{-0.5pt}%
+      }%
+    \end{multicols}
+    \PastMastersLegend
+  \endgroup
+}
+
+% Default standard agenda if no per-meeting agenda exists
+\newcommand{\StandardAgenda}{%
+  \begin{enumerate}
+    \item To open the Lodge.
+    \item To confirm the minutes of the last Regular Meeting.
+    \item To conduct any ballot(s).
+    \item To conduct the business of the evening.
+    \item To collect alms.
+    \item To close the Lodge.
+  \end{enumerate}%
+}
+
+% ===== Menu Formatting Macros =====
+\newcommand{\MenuDivider}{%
+  \par\vspace{0.3\baselineskip}
+  {\centering\textcolor{lodgegold}{\rule{0.5\linewidth}{0.8pt}}\par}%
+  \vspace{0.3\baselineskip}
+}
+
+\newcommand{\FormatMenuHeader}[1]{%
+  {\centering\small
+  #1
+  \par}
+  \vspace{0.5\baselineskip}
+}
+
+\newcommand{\FormatMenuCourse}[4]{%
+  % #1 = Course name, #2 = Vegetarian alternative (optional), #3 = Paired beer, #4 = ABV
+  {\centering\small
+  \textbf{#1}%
+  \ifx&#2&\else\\(#2)\fi%
+  \ifx&#3&\else\\Paired with:\\#3\ifx&#4&\else{} (#4)\fi\fi%
+  \par}
+  \vspace{0.3\baselineskip}
+}
+
+\newcommand{\FormatMenuDrink}[2]{%
+  % #1 = Drink name, #2 = ABV (optional)
+  {\centering\small
+  \textbf{#1}\ifx&#2&\else{} (#2)\fi
+  \par}
+  \vspace{0.3\baselineskip}
+}
+
+\newcommand{\FormatMenuSimple}[2]{%
+  % #1 = Item name, #2 = ABV (optional)
+  {\centering\small
+  \textbf{#1}\ifx&#2&\else{} (#2)\fi
+  \par}
+  \vspace{0.3\baselineskip}
+}

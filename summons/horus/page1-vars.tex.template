@@ -1,0 +1,15 @@
+% Horus Page 1 variable content (easy to edit)
+% Override secretary contact if desired (falls back to data-loaded values otherwise)
+\providecommand{\SecretaryDisplayName}{}
+\providecommand{\SecretaryPostnominalsOverride}{}
+% If phone/email not provided here, will use loaded CSV values (\SecretaryPhone, \SecretaryEmail)
+\providecommand{\SecretaryPhoneOverride}{}
+\providecommand{\SecretaryEmailOverride}{}
+
+% Festive board and booking details
+\providecommand{\FestiveBoardText}{The Festive Board will be held at Freemasons Hall. Dining details are attached with the Summons, bookings must be confirmed and paid for by 3\textsuperscript{rd} October.}
+\providecommand{\BookingIntro}{Booking in here:}
+\providecommand{\BookingLinkText}{LINK FOR BOOKINGS}
+\providecommand{\BookingLinkURL}{https://book.horus3155.com/event/3/october-2025-regular-meetings}
+\providecommand{\DressCodeText}{Dress Code: Dark Suit or Morning Dress; White Gloves; Plain Black, Craft, Metropolitan, or Royal Arch Tie. Undress Regalia (where applicable)}
+\providecommand{\FooterDomain}{HORUS3155.COM}
