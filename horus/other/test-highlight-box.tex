@@ -1,0 +1,17 @@
+% !TEX TS-program = xelatex
+\documentclass{lodgebrand}
+
+% Use box highlight for WM and ensure rubric stays red
+\HighlightOfficer{WM}
+\SetOfficerHighlightStyle{box}
+\SetOfficerBoxColor{yellow!30}
+
+\EnableLodgeBranding
+\DisableHeaderFill
+
+\begin{document}
+\SectionNoTOC{Test Box Highlight}
+\linefrom{WM:}{Brethren, this is a test of the box highlight. \cue{holds up warrant}}
+\rubline{(Done)}
+\linefrom{SW:}{This line should not be highlighted.}
+\end{document}

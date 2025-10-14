@@ -1,0 +1,27 @@
+% !TEX TS-program = xelatex
+\documentclass{lodgebrand}
+
+\geometry{paperwidth=210mm,paperheight=99mm,landscape, top=18mm,bottom=12mm,left=18mm,right=18mm}
+\SetLodgeBranding{
+  name   = {Hundred Elms Lodge},
+  number = {No. 5749},
+  strapa = {(Consecrated 10th October 1938)},
+  strapb = {PATRON LODGE – MIDDLESEX 2020 FESTIVAL},
+  contacts = {Adam Camp | Secretary | adam.camp@pglm.org.uk | 07792 554 609},
+  logo = {../assets/5749-Logo.pdf},
+  footer-left = {},
+  footer-right= {}
+}
+
+\EnableLodgeBranding
+\DisableLodgeFooter
+
+\begin{document}
+\vspace*{14mm}
+\begin{center}
+{\sffamily\Large With Compliments}\\[1ex]
+{\small \LodgeAddress}
+\end{center}
+\vfill
+\hfill\parbox{70mm}{\raggedleft\footnotesize \LodgeContacts}
+\end{document}

@@ -1,0 +1,289 @@
+% !TEX TS-program = xelatex
+\documentclass{lodgebrand}
+
+% Customise branding values below. Dimensions inside the class are
+% handled with proper dimexpr, so use plain numbers/strings here.
+\SetLodgeBranding{
+  name   = {The Horus Lodge},
+  number = {No. 3155},
+  strapa = {(Consecrated 14th May 1906)},
+  strapb = {FOUNDER LODGE – METROPOLITAN GRAND LODGE OF LONDON},
+  address= {58 Lilian Road\\London\\SW16 5HW},
+  contacts = {},
+  footer-left = {Meeting 456 - 18th October 2025 - Expanded Agenda},
+  footer-right = {\thepage},
+  logo = {../../../assets/l3155-logo.png},
+  gavelicon = {fa}
+}
+
+% Officer-specific highlighting (optional):
+% Enable to produce a customised handout for a specific officer (e.g., WM, SW, JW)
+\HighlightOfficer{WM}
+% Choose highlight STYLE:
+%   1) Colored bold text (preserves rubric red):
+\SetOfficerHighlightStyle{box}
+%   2) Box highlight (breakable yellow background):
+%      \SetOfficerHighlightStyle{box}        % <- alternative
+% Choose highlight COLOR for the spoken text (or box fill):
+%   - 'officerhl' is a default deep green defined by the class
+%   - or use 'accentcolor' (gold), or any other defined color
+\SetOfficerHighlightColor{officerhl}
+% Optional: underline highlighted text (applies to either style)
+%   \EnableOfficerUnderline   % underline ON
+%   \DisableOfficerUnderline  % underline OFF (default)
+
+\EnableLodgeBranding
+\DisableHeaderFill % no solid blue background; use outlined header with brand-colored text
+% Default spacing; header appears on first page only
+\UseMinutesFooterRule
+
+\begin{document}
+\renewcommand{\contentsname}{Agenda}
+% Compact agenda-style TOC with dot leaders
+% (requires class to load tocloft; leaders/styling handled there)
+{\small\tableofcontents}
+
+\SectionNoTOC{Notes}
+Where items are deferred to another Brother, said Brother appears (in brackets) after the item.
+
+This agenda is intended to be as comprehensive as possible, however no plan escapes first contact with the enemy!
+
+% start running header for content after the agenda/notes
+\clearpage
+\SetRunningTop{22mm}
+\EnableRunningHeader
+\AgendaReset
+\AgendaItem{Opening}
+\linefrom{DC:}{To order Brethren, to receive the Worshipful Master, attended by his Wardens.}
+
+\rubline{(Perambulations)}
+
+\linefrom{WM:}{Brethren, in accordance with Rule 101 of the Book of Constitutions, the Warrant of the Lodge \cue{holds up warrant}}
+
+\linefrom{WM:}{Brethren, we will sign the Opening Ode.}
+
+\rubline{(Done)}
+
+\linefrom{WM:}{Brethren, assist me to open the Lodge in the First Degree.}
+
+\rubline{(Done)}
+
+\rubline{(Deacons adjust tracing boards)}
+
+
+\AgendaItem{Minutes}
+\linefrom{WM:}{Brethren we will now take item 2 on the agenda, Bro. Secretary.}
+
+\linefrom{Sec:}{Thank you WM, Brethren, the minutes have been circulated to all the Brethren, I have had [no / some] notices of correction, therefore I propose they be adopted.}
+
+\linefrom{WM:}{Brethren, you have all received those minutes, would all those who deem them worthy of confirmation, please signify in the usual manner observed amongst Masons?}
+
+\rubline{(DONE)}
+
+\linefrom{WM:}{To the contrary, if any?}
+
+\rubline{(DONE)}
+
+\linefrom{WM:}{Bro. Secretary, \cue{Sec. stands} those minutes are confirmed.}
+
+\rubline{(SD TAKES MINUTES TO WM FOR SIGNING AND RETURNS THEM)}
+
+
+\AgendaItem{Investiture of Officers}
+\linefrom{WM:}{Brethren we will take item 3, Bro. Secretary.}
+
+\linefrom{Sec:}{Worshipful Master, on this occasion there are no Officers present this evening to be invested.}
+
+\rubline{(OR)}
+
+\linefrom{Sec:}{Worshipful Master, the following Officers were curiously absent at the Installation Meeting, and are now present.}
+
+\rubline{(INVESTITURE OF BRETHREN PREVIOUSLY ABSENT)}
+
+
+\AgendaItem{Ballot for Joining Members}
+\linefrom{WM:}{Brethren we will take item 4, Bro. Secretary.}
+
+\linefrom{Sec:}{Thank you WM, Brethren, I am pleased to announce the following candidates for Membership, whose details were read out on the Third Rising at our last meeting:}
+\begin{itemize}
+  \item Bro. 
+\end{itemize}
+
+\linefrom{Sec:}{WM, I propose that the ballot be taken together, and in the case of any difficulties, thereafter separately. I further propose that on this occasion the Ballot be left in the hands of the WM and the Wardens.}
+
+\linefrom{DC:}{\stand{} WM, I second.}
+
+\linefrom{WM:}{Brethren, you have heard the proposals, would all those in favour please signify in the usual manner observed amongst Masons?}
+
+\rubline{(DONE)}
+
+\linefrom{WM:}{To the contrary, if any?}
+
+\rubline{(DONE)}
+
+\linefrom{WM:}{Bro. Secretary, \cue{Sec. stands} that proposal is carried. Bro. Deacons.}
+
+\rubline{(DEACONS ARRANGE BALLOT)}
+
+\linefrom{WM:}{Brethren, the Ballot proves in favour of the Candidates.}
+
+\linefrom{DC:}{\stand{} WM, would it be your wish to welcome the new members present?}
+
+\linefrom{WM:}{It is, Bro. DC.}
+
+\rubline{(DC PERAMBULATES ELECTED JOINING MEMBERS TO BE WELCOMED BY THE WM AND THE WARDENS)}
+
+
+\AgendaItem{Presentation of Grand Lodge Certificate}
+\linefrom{WM:}{Brethren we will take item 5, Bro. Secretary.}
+
+\linefrom{Sec:}{\stand{} Thank you WM, Brethren, we have this afternoon ... Grand Lodge Certificates to present, to Bro. Ben Wright,... }
+
+\linefrom{WM:}{I would like to invite W.Bro. Martin Smith to present the Grand Lodge Certificate(s). Bros. DC and ADC, would you please escort W.Bro. Smith and the recipients to the Secretary's Desk?}
+
+\rubline{(DC ESCORTS W.BRO. SMITH, ADC ESCORTS THE RECIPIENTS TO SECRETARIAL TABLE)}
+
+
+\rubline{(PRESENTATION)}
+
+
+\rubline{(DC ESCORTS W.BRO. SMITH BACK TO HIS SEAT, ADC ESCORTS THE RECIPIENTS BACK TO THEIR SEATS)}
+
+
+\AgendaItem{Election of Master and Treasurer for the ensuing year}
+\linefrom{WM:}{Brethren we will take item 6, Bro. Secretary.}
+
+\linefrom{Sec:}{\stand{} Thank you WM, Brethren, the only nominations of which I am aware for the offices of Master and Treasurer for the ensuing year are W.Bro. Martin Charles Smith as Worshipful Master and W.Bro. Adam Gary Daisley as Treasurer. Subject to the provisions of the Book of Constitutions, Rules 105(a) and 112(a) respectively, I propose to declare the Ballot in their favour. Any Brother may, however, demand a Ballot.}
+
+\linefrom{WM:}{Bro. Secretary, \cue{Sec. stands} that proposition is carried.}
+
+
+\AgendaItem{Election of Tyler for the ensuing year}
+\linefrom{Sec:}{WM, Brethren, the only nomination of which I am aware for the office of Tyler is W.Bro. Simon Lincoln. I therefore propose he be elected as Tyler.}
+
+\linefrom{Treas:}{\stand{} WM, I second.}
+
+\linefrom{WM:}{Brethren, you have all heard the proposal, would all those in favour please signify in the usual manner observed amongst Masons?}
+
+\rubline{(DONE)}
+
+\linefrom{WM:}{To the contrary, if any?}
+
+\rubline{(DONE)}
+
+\linefrom{WM:}{Bro. Secretary \cue{Sec. stands} that proposal is carried.}
+
+
+\AgendaItem{Election of Brethren to serve on the Lodge Committee}
+\linefrom{Sec:}{WM, Brethren, Brethren to serve on the Lodge Committee, I propose that the nominations are Bro. ... and Bro. ...}
+
+\linefrom{Treas:}{\stand{} WM, I second.}
+
+\linefrom{WM:}{Brethren, you have all heard the proposal, would all those in favour please signify in the usual manner observed amongst Masons?}
+
+\rubline{(DONE)}
+
+\linefrom{WM:}{To the contrary, if any?}
+
+\rubline{(DONE)}
+
+\linefrom{WM:}{Bro. Secretary \cue{Sec. stands} that proposal is carried.}
+
+
+\AgendaItem{Election of Brethren to server as Lodge Accounts Examiners}
+\linefrom{Sec:}{WM, Brethren, two Brethren to serve as Lodge Accounts Examiners, I propose that the nominations are W.Bro. Keiran Stewart and W.Bro. Kevin Norton.}
+
+\linefrom{DC:}{\stand{} WM, I second.}
+
+\linefrom{WM:}{Brethren, you have all heard the proposal, would all those in favour please signify in the usual manner observed amongst Masons?}
+
+\rubline{(DONE)}
+
+\linefrom{WM:}{To the contrary, if any?}
+
+\rubline{(DONE)}
+
+\linefrom{WM:}{Bro. Secretary \cue{Sec. stands} that proposal is carried.}
+
+
+\AgendaItem{Reports}
+\linefrom{WM:}{Item 10 on the agenda, Bro. Almoner.}
+
+\linefrom{Alm:}{\cue{Gives Report.}}
+
+\linefrom{WM:}{Bro. Charity Steward.}
+
+\linefrom{ChStwd:}{\cue{Gives Report.}}
+
+\linefrom{WM:}{Bro. Mentor.}
+
+\linefrom{Men:}{\cue{Gives Report.}}
+
+\linefrom{WM:}{Bro. Membership Officer.}
+
+\linefrom{Mem:}{\cue{Gives Report.}}
+
+\linefrom{WM:}{Bro. Royal Arch Representative.}
+
+\linefrom{RARep:}{\cue{Gives Report.}}
+
+\linefrom{Sec:}{\stand{} WM, reports will also be circulated to the Brethren by e-mail.}
+
+\AgendaItem{Alms}
+\linefrom{WM:}{Brethren, we will collect Alms. Bro. Deacons.}
+
+\rubline{(DONE)}
+
+\AgendaItem{Any Other Business}
+\linefrom{WM:}{Brethren, we will now take item 11 on the agenda, Any Other Business, Bro. Secretary.}
+
+\linefrom{Sec:}{Thank you WM, Brethren, there is no other business for this meeting that cannot be dealt with on the Risings.}
+
+\newpage
+\AgendaItem{Risings}
+\AgendaSubItem{First Rising - Grand Lodge Communications}
+\linefrom{WM:}{Brethren, I rise for the first time...}
+
+\linefrom{Sec:}{\stand{} \begin{itemize}
+  \item WM, Brethren, I am required to inform you that I received a letter from the Metropolitan Grand Secretary, on behalf of the Grand Secretary, informing me of the outcome of disciplinary proceedings against Mr. Troy Andrew Taylor-Smith, who was expelled from the Craft on 16th July 2025, and announced as such at the following Quarterly Communications.
+  \item WM, Brethren, the communications from Grand Lodge are circulated to the members by the "First Rising" e-mail, if anyone isn't receiving those communications please do let me know.
+  \item WM, Brethren, I am required to remind the Brethren that they should not make contact with Masonic Lodges overseas without first having ascertained by application to the Grand Chancellor's Office (via the Secretary) the existence of regular Masonry in the country concerned.
+  \item WM, Brethren, finally on this Rising, I will take the opportunity to remind the Brethren of the importance of registering for "Portal" - this is a UGLE-wide initiative, our uptake is "ahead of the curve" but I would like us to continue that trend, and to that end a QR code appears on the back of the Summons which will take you to the Portal registration page. Please come and see me if you have any questions.
+\end{itemize}}
+
+\AgendaSubItem{Second Rising - Metropolitan Grand Lodge Communications}
+\linefrom{WM:}{Brethren, I rise for the second time...}
+
+\linefrom{Sec:}{\stand{} \begin{itemize}
+  \item WM, Brethren, the communications from Metropolitan Grand Lodge are circulated to Lodge Secretaries and then on to the members by a monthly newsletter e-mail. This is now in a "handy" PDF format and so I am able to distribute via our e-mail system. If anyone isn't receiving those communications please do let me know. I am conscious of course that this Lodge in not the primary Lodge for any of our members, though it may be the only Metropolitan Lodge for some.
+  \item WM, Brethren, I have received a letter from W.Bro. Martin Vidler, our Metropolitan Grand Inspector, passing his best wishes to you, WM, and the Brethren of the Lodge. He would like to extend his Apologies for not being able to attend this meeting (it wasn't for the lack of me pressuring him, WM!) and looks forward to seeing us all soon.
+  \item WM, Brethren, I am AGAIN going to take the opportunity on this Rising to remind the Brethren of the importance of registering for "Portal" - although this is a UGLE-wide initiative, Metropolitan Grand Lodge are pushing London Lodges to "lead from the front" and while our uptake is "ahead of the curve" it would be nice to get us to 100\% adoption.
+\end{itemize}}
+
+\AgendaSubItem{Third Rising - Lodge Communications}
+\linefrom{WM:}{Brethren, I rise for the third time...}
+
+\linefrom{Sec:}{\stand{} \begin{itemize}
+  \item WM, Brethren, on this rising I have received letters of resignation from Bros....
+  \item WM, Brethren, I am delighted to be able to read out the following Candidates for Joining Members: ...
+  \item WM, I have received apologies from a number of Brethren, may I take them as read?
+\end{itemize}}
+
+\AgendaItem{Closing the Lodge}
+\linefrom{WM:}{Brethren, assist me to close the Lodge.}
+
+\rubline{(DONE)}
+
+\linefrom{IPM:}{Brethren, nothing now remains, but to lock up our secrets in a safe and sacred repository, uniting in the act of F... F... F...}
+
+\linefrom{DC:}{Brethren, to order, for the first verse of the National Anthem.}
+
+\rubline{(FIRST VERSE OF THE NATIONAL ANTHEM)}
+
+\linefrom{WM:}{Brethren, Closing Ode.}
+
+\rubline{(CLOSING ODE)}
+
+\linefrom{DC:}{Brethren, there will be no Recession from the Lodge - Bro. IG will you please admit non-Masonic Guests for the talk?}
+
+\end{document}

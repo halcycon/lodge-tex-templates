@@ -1,0 +1,17 @@
+\contentsline {section}{\numberline {1.}Opening}{2}{section*.3}%
+\contentsline {section}{\numberline {2.}Minutes}{2}{section*.5}%
+\contentsline {section}{\numberline {3.}Investiture of Officers}{2}{section*.7}%
+\contentsline {section}{\numberline {4.}Ballot for Joining Members}{3}{section*.9}%
+\contentsline {section}{\numberline {5.}Presentation of Grand Lodge Certificate}{3}{section*.11}%
+\contentsline {section}{\numberline {6.}Election of Master and Treasurer for the ensuing year}{4}{section*.13}%
+\contentsline {section}{\numberline {7.}Election of Tyler for the ensuing year}{4}{section*.15}%
+\contentsline {section}{\numberline {8.}Election of Brethren to serve on the Lodge Committee}{4}{section*.17}%
+\contentsline {section}{\numberline {9.}Election of Brethren to server as Lodge Accounts Examiners}{5}{section*.19}%
+\contentsline {section}{\numberline {10.}Reports}{5}{section*.21}%
+\contentsline {section}{\numberline {11.}Alms}{5}{section*.23}%
+\contentsline {section}{\numberline {12.}Any Other Business}{6}{section*.25}%
+\contentsline {section}{\numberline {13.}Risings}{7}{section*.27}%
+\contentsline {subsection}{\numberline {(a)}First Rising - Grand Lodge Communications}{7}{section*.29}%
+\contentsline {subsection}{\numberline {(b)}Second Rising - Metropolitan Grand Lodge Communications}{7}{section*.31}%
+\contentsline {subsection}{\numberline {(c)}Third Rising - Lodge Communications}{8}{section*.33}%
+\contentsline {section}{\numberline {14.}Closing the Lodge}{8}{section*.35}%

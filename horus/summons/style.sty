@@ -305,6 +305,70 @@
   \endgroup
 }
 
+% Candidates for Ballot (Joining Members) listing
+% Uses explicit head-to-column mapping to avoid underscore macro issues
+\newcommand{\CandidatesTable}{%
+  	\typeout{[CANDIDATES] Checking for file '\DataDir/candidates.csv'}%
+  \IfFileExists{\DataDir/candidates.csv}{%
+  	\typeout{[CANDIDATES] File found. Beginning CSV read (explicit mapping).}%
+    \begingroup
+      \setlength{\parskip}{4pt}
+      \newcount\CandidateRowCount \CandidateRowCount=0
+      \csvreader[
+        head to column names,
+        separator=pipe,
+        respect all
+      ]{\DataDir/candidates.csv}{%
+        title=\CTitle,
+        first_names=\CFNames,
+        surname=\CSurname,
+        rank=\CRank,
+        date_of_birth=\CDOB,
+        home_address=\CHomeAddr,
+        job_title=\CJob,
+        employer_address=\CEAddr,
+        proposed_by_title=\CPropTitle,
+        proposed_by_first_names=\CPropFN,
+        proposed_by_surname=\CPropSur,
+        proposed_by_rank=\CPropRank,
+        seconded_by_title=\CSecTitle,
+        seconded_by_first_names=\CSecFN,
+        seconded_by_surname=\CSecSur,
+        seconded_by_rank=\CSecRank,
+            employer=\CEmployer,
+            lodge_memberships=\CLodges,
+            proposed_date=\CProposedDate
+      }{%
+    \advance\CandidateRowCount by 1
+    	\typeout{[CANDIDATES-ROW] name=\CFNames~\CSurname}%
+          \noindent\begin{minipage}{\textwidth}\small
+            % Line 1: Title Names Rank (italic label for DOB)
+            \textbf{\CTitle\space\CFNames\space\CSurname}\ifx\CRank\empty\else\space\CRank\fi. \textit{D.O.B:} \CDOB.\\
+            % Line 2: Address with italic Of
+            	\textit{Of} \CHomeAddr\\
+            % Line 3: Occupation sentence
+             \CJob\space for \CEmployer\space of \CEAddr\\
+            % Line 4: Proposed / Seconded
+            	\textit{Proposed by:} \CPropTitle\space\CPropFN\space\CPropSur\space\CPropRank\space and \textit{Seconded by:} \CSecTitle\space\CSecFN\space\CSecSur\space\CSecRank\\
+            % Line 5: Memberships
+            	\textit{A member of:} \CLodges\\
+            % Line 6: Proposed Date
+              \textit{Proposed in Open Lodge on:} \CProposedDate
+          \end{minipage}\par
+          \vspace{4pt}\noindent{\color{lodgegold}\rule{\linewidth}{0.4pt}}\vspace{6pt}
+      }%
+      \ifnum\CandidateRowCount=0
+  	\typeout{[CANDIDATES] ZERO ROWS after explicit mapping parse.}%
+        {\small (No candidate rows parsed — check CSV header or formatting.)}\par
+        % As a diagnostic, print the raw first line of the file using \verbatiminput if available
+      \fi
+    \endgroup
+  }{%
+      	\typeout{[CANDIDATES] File NOT found. Showing fallback message.}%
+    {\small No candidates for ballot submitted.}\par
+  }%
+}
+
 % Default standard agenda if no per-meeting agenda exists
 \newcommand{\StandardAgenda}{%
   \begin{enumerate}

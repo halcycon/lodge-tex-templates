@@ -1,0 +1,49 @@
+% !TEX TS-program = xelatex
+\documentclass{lodgebrand}
+
+\SetLodgeBranding{
+  name   = {Hundred Elms Lodge},
+  number = {No. 5749},
+  strapa = {(Consecrated 10th October 1938)},
+  strapb = {PATRON LODGE – MIDDLESEX 2020 FESTIVAL},
+  address= {58 Lilian Road\\London\\SW16 5HW},
+  contacts = {Adam Camp | Secretary | adam.camp@pglm.org.uk | 07792 554 609},
+  footer-left = {Registered Address: 58 Lilian Road, London SW16 5HW},
+  footer-right= {Hundred Elms Lodge No. 5749},
+  logo = {../assets/5749-Logo.pdf}
+}
+
+\EnableLodgeBranding
+
+\begin{document}
+\vspace*{10mm}
+
+\small\color{textgray}
+\begin{minipage}{0.55\textwidth}
+\LodgeContacts\\[2mm]
+\LodgeAddress
+\end{minipage}
+\hfill
+\begin{minipage}{0.35\textwidth}
+\raggedleft \today
+\end{minipage}
+
+\vspace{8mm}
+\normalsize
+{Name}\\
+{Address line 1}\\
+{Town}\\
+{Postcode}
+
+\vspace{6mm}
+Dear {Name},
+
+This is example body text for your A4 letterhead.
+
+\bigskip
+Yours sincerely and fraternally,\\[12mm]
+\rule{45mm}{0.4pt}\\
+W. Bro. Adam Camp, PProvGStwd\\
+Secretary, Hundred Elms Lodge No. 5749
+
+\end{document}

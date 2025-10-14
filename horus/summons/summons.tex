@@ -33,7 +33,7 @@
   \setlength{\extrarowheight}{0pt}
   \begin{tabular}{@{}p{0.34\textwidth}@{\hspace{4pt}}p{0.24\textwidth}@{\hspace{4pt}}p{0.34\textwidth}@{}}
   \raggedright\fontsize{11pt}{12pt}\selectfont \LodgePatronLeft &
-  \centering\raisebox{-\height}{\includegraphics[width=0.24\textwidth]{../assets/l3155-logo.png}} &
+  \centering\raisebox{-\height}{\includegraphics[width=0.24\textwidth]{../../../assets/l3155-logo.png}} &
   \raggedleft\fontsize{11pt}{12pt}\selectfont \LodgePatronRight \\
   \end{tabular}\\[18pt]
   {\HorusTitleFont\color{horusgold} The Horus Lodge No. \LodgeNumber}\\[6pt]
@@ -56,7 +56,7 @@
 \end{center}
 
 {\HorusBodyFont
-Dear Sir and Brother,\\[10pt]
+\noindent Dear Sir and Brother,\\[10pt]
 You are hereby summoned to attend the Regular Meeting of The Horus Lodge No~\LodgeNumber~(Meeting No. \MeetingNumber)\\[8pt]
 On \textbf{\MeetingDate\ @ \MeetingTyling\ at \MeetingVenue.}\\[10pt]
 Where we will receive a Lecture on the Worshipful Company of Brewers, delivered by W.Bro. James Fitzgerald LGR, Beadle of the Company.\\[10pt]
@@ -202,5 +202,11 @@ Yours Fraternally,\\[14pt]
     \input{notices/standard-notices.tex}%
   }
 }
+
+\clearpage
+
+% ===== Page 5: Candidates for Ballot =====
+\CenteredHeading{Candidates for Ballot as Joining Members}
+\CandidatesTable
 
 \end{document}
