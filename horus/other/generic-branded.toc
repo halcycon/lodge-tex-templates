@@ -6,13 +6,19 @@
 \contentsline {section}{\numberline {6.}Presentation of Grand Lodge Certificate}{6}{section*.15}%
 \contentsline {section}{\numberline {7.}Election of Master and Treasurer for the ensuing year}{6}{section*.17}%
 \contentsline {section}{\numberline {8.}Election of Tyler for the ensuing year}{6}{section*.19}%
-\contentsline {section}{\numberline {9.}Election of Brethren to serve on the Lodge Committee}{7}{section*.21}%
-\contentsline {section}{\numberline {10.}Election of Brethren to server as Lodge Accounts Examiners}{7}{section*.23}%
+\contentsline {section}{\numberline {9.}Election of Brethren to serve on the Lodge Committee}{6}{section*.21}%
+\contentsline {section}{\numberline {10.}Election of Brethren to serve as Lodge Accounts Examiners}{7}{section*.23}%
 \contentsline {section}{\numberline {11.}Reports}{7}{section*.25}%
-\contentsline {section}{\numberline {12.}Alms}{8}{section*.27}%
+\contentsline {section}{\numberline {12.}Alms}{7}{section*.27}%
 \contentsline {section}{\numberline {13.}Any Other Business}{8}{section*.29}%
 \contentsline {section}{\numberline {14.}Risings}{9}{section*.31}%
 \contentsline {subsection}{\numberline {(a)}First Rising - Grand Lodge Communications}{9}{section*.33}%
 \contentsline {subsection}{\numberline {(b)}Second Rising - Metropolitan Grand Lodge Communications}{9}{section*.35}%
 \contentsline {subsection}{\numberline {(c)}Third Rising - Lodge Communications}{10}{section*.37}%
 \contentsline {section}{\numberline {15.}Closing the Lodge}{10}{section*.39}%
+\contentsline {section}{\numberline {}Annex: Beer Tasting Notes}{11}{section*.41}%
+\contentsline {section}{\numberline {}Annex: Summons}{13}{section*.43}%
+\contentsline {section}{\numberline {}Annex: Candidate Details}{17}{section*.45}%
+\contentsline {section}{\numberline {}Annex: MetGL Toast List}{19}{section*.47}%
+\contentsline {section}{\numberline {}Annex: Seating Plan (clear)}{20}{section*.49}%
+\contentsline {section}{\numberline {}Annex: Seating Plan (coloured)}{21}{section*.51}%
